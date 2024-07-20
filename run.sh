@@ -7,10 +7,13 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Set the paths for the cache and data directories relative to the script directory
 CACHE_DIR="$SCRIPT_DIR/cache"
 DATA_DIR="$SCRIPT_DIR/data"
+OUTPUT_DIR="$SCRIPT_DIR/output"
+
 
 # Print the paths for verification
 echo "Cache Directory: $CACHE_DIR"
 echo "Data Directory: $DATA_DIR"
+echo  "Output Directory: $OUTPUT_DIR"
 
 # Initialize default values
 SKIP_BUILD=false
@@ -28,6 +31,7 @@ done
 # Create directories if they don't exist
 mkdir -p "$CACHE_DIR"
 mkdir -p "$DATA_DIR"
+mkdir -p "$OUTPUT_DIR"
 
 # Verify directories exist (after attempting to create them)
 if [ ! -d "$CACHE_DIR" ]; then
@@ -36,6 +40,10 @@ if [ ! -d "$CACHE_DIR" ]; then
 fi
 if [ ! -d "$DATA_DIR" ]; then
     echo "Data directory does not exist: $DATA_DIR"
+    exit 1
+fi
+if [ ! -d "$OUTPUT_DIR" ]; then
+    echo "Output directory does not exist: $OUTPUT_DIR"
     exit 1
 fi
 
@@ -50,4 +58,5 @@ echo "Running Docker container with GPUs: $GPUS..."
 hare run -it --rm --gpus "device=$GPUS" \
     -v "$CACHE_DIR:/app/cache:z" \
     -v "$DATA_DIR:/app/data:z" \
+    -v "$OUTPUT_DIR:/app/output:z" \
     dkjj20/cogvlm2caption

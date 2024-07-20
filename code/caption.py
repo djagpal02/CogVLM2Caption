@@ -37,5 +37,4 @@ def caption(image_data, query, model, tokenizer, DEVICE, TORCH_TYPE):
 
 def process_image(file, images, query, model, tokenizer, DEVICE, TORCH_TYPE):
     image_data = images[file]
-    caption_out = caption(image_data, query, model, tokenizer, DEVICE, TORCH_TYPE)
-    create_text_file_for_image(file, caption_out)
+    return caption(image_data, query, model, tokenizer, DEVICE, TORCH_TYPE)
